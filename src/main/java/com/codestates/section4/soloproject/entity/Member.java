@@ -1,5 +1,6 @@
 package com.codestates.section4.soloproject.entity;
 
+import com.codestates.section4.soloproject.audit.AbstractAuditingEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Member {
+public class Member extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
