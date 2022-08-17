@@ -1,4 +1,4 @@
-package com.codestates.section4.soloproject.entity;
+package com.codestates.section4.soloproject.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,23 +9,21 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "COMPANY_TYPE")
+@Builder
 @Entity
-public class CompanyType {
+public class CompanyLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long companyTypeId;
+    private Long companyLocationId;
 
     @Column(nullable = false)
     private String name;
 
     @Builder.Default
-    @OneToMany(mappedBy = "companyType")
+    @OneToMany(mappedBy = "companyLocation")
     private List<Member> members = new ArrayList<>();
-
 }

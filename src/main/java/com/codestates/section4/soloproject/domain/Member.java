@@ -1,4 +1,4 @@
-package com.codestates.section4.soloproject.entity;
+package com.codestates.section4.soloproject.domain;
 
 import com.codestates.section4.soloproject.audit.AbstractAuditingEntity;
 import lombok.AllArgsConstructor;
@@ -24,6 +24,9 @@ public class Member extends AbstractAuditingEntity {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String companyName;
 
     @Column(nullable = false)
     private String password;
