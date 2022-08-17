@@ -1,0 +1,26 @@
+= solo-project-api-doucmentation
+:sectnums:1
+:toc: middle
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: highlightjs
+
+Hyeonsu Bang <hsbang.thom@gmail.com>
+
+v.1.0.0, #2022-08-17
+
+'''
+== MemberController
+=== post item
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-member/response-fields.adoc[]
+

@@ -13,17 +13,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 @ExtendWith(MockitoExtension.class)
+@AutoConfigureRestDocs
 @WebMvcTest(MemberController.class)
 public class MemberControllerTest {
 
@@ -98,6 +106,36 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.response.companyType.code").value(requestDto.getCompanyType().getCode()))
                 .andExpect(jsonPath("$.response.companyLocation.name").value(requestDto.getCompanyLocation().getName()));
 
-
+        // documentation
+        resultActions
+                .andDo(document(
+                        "post-member",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        requestFields(List.of(
+                                fieldWithPath("businessRegistrationNumber").type(JsonFieldType.STRING).description("사업자 등록 번호"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("사업주 성명"),
+                                fieldWithPath("companyName").type(JsonFieldType.STRING).description("상호명"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+                                fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("별명"),
+                                fieldWithPath("companyType").type(JsonFieldType.OBJECT).description("업종 정보"),
+                                fieldWithPath("companyType.name").type(JsonFieldType.STRING).description("업종명"),
+                                fieldWithPath("companyType.code").type(JsonFieldType.STRING).description("업종 코드"),
+                                fieldWithPath("companyLocation").type(JsonFieldType.OBJECT).description("사업소 위치"),
+                                fieldWithPath("companyLocation.name").type(JsonFieldType.STRING).description("위치명")
+                        )),
+                        responseFields(List.of(
+                                fieldWithPath("response.name").type(JsonFieldType.STRING).description("사업주 성명"),
+                                fieldWithPath("response.companyName").type(JsonFieldType.STRING).description("상호명"),
+                                fieldWithPath("response.sex").type(JsonFieldType.STRING).description("성별"),
+                                fieldWithPath("response.nickname").type(JsonFieldType.STRING).description("별명"),
+                                fieldWithPath("response.companyType").type(JsonFieldType.OBJECT).description("업종 정보"),
+                                fieldWithPath("response.companyType.name").type(JsonFieldType.STRING).description("업종명"),
+                                fieldWithPath("response.companyType.code").type(JsonFieldType.STRING).description("업종 코드"),
+                                fieldWithPath("response.companyLocation").type(JsonFieldType.OBJECT).description("사업소 위치"),
+                                fieldWithPath("response.companyLocation.name").type(JsonFieldType.STRING).description("위치명")
+                        ))
+                ));
     }
 }
